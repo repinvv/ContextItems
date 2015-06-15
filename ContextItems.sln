@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsSqlContextItemsGeneration", "MsSqlContextItemsGeneration\MsSqlContextItemsGeneration.csproj", "{ECC78D04-725D-4E96-B04B-FE33AF74EF15}"
+	ProjectSection(ProjectDependencies) = postProject
+		{13C08EE9-F6DD-4253-88AB-277D3C56D4E5} = {13C08EE9-F6DD-4253-88AB-277D3C56D4E5}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OracleContextItemsGeneration", "OracleContextItemsGeneration\OracleContextItemsGeneration.csproj", "{051B2BFC-91BB-4B38-BB49-84ADC701385F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{13C08EE9-F6DD-4253-88AB-277D3C56D4E5} = {13C08EE9-F6DD-4253-88AB-277D3C56D4E5}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonGeneration", "CommonGeneration\CommonGeneration.csproj", "{13C08EE9-F6DD-4253-88AB-277D3C56D4E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECC78D04-725D-4E96-B04B-FE33AF74EF15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECC78D04-725D-4E96-B04B-FE33AF74EF15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECC78D04-725D-4E96-B04B-FE33AF74EF15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECC78D04-725D-4E96-B04B-FE33AF74EF15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{051B2BFC-91BB-4B38-BB49-84ADC701385F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{051B2BFC-91BB-4B38-BB49-84ADC701385F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{051B2BFC-91BB-4B38-BB49-84ADC701385F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{051B2BFC-91BB-4B38-BB49-84ADC701385F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C08EE9-F6DD-4253-88AB-277D3C56D4E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C08EE9-F6DD-4253-88AB-277D3C56D4E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C08EE9-F6DD-4253-88AB-277D3C56D4E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C08EE9-F6DD-4253-88AB-277D3C56D4E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

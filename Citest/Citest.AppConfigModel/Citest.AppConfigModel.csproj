@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CFD23FDB-69AD-4CA7-8725-C127C0201408}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Citest.AppConfigModel</RootNamespace>
+    <AssemblyName>Citest.AppConfigModel</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.Extended">
+      <HintPath>..\packages\EntityFramework.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess, Version=4.121.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=AMD64" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdoCommands.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppConfigModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppConfigModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppConfigModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppConfigModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppConfigModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppConfigModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="AUDIT_LOG.cs">
+      <DependentUpon>AppConfigModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AUDIT_LOG_partial_oracle.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CLIENT.cs">
+      <DependentUpon>AppConfigModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CLIENT_partial_oracle.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectionHandler.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContextItems.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EP_TARGET_INFO.cs">
+      <DependentUpon>AppConfigModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EP_TARGET_INFO_partial_oracle.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IAdoCommands.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IFieldsCaster.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IOracleEntity.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Material.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Materializer.cs">
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OracleContextItems.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OracleContextItems.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="AppConfigModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>AppConfigModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="AppConfigModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AppConfigModel.edmx</DependentUpon>
+      <LastGenOutput>AppConfigModel.Context.cs</LastGenOutput>
+    </None>
+    <None Include="AppConfigModel.edmx.diagram">
+      <DependentUpon>AppConfigModel.edmx</DependentUpon>
+    </None>
+    <None Include="AppConfigModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AppConfigModel.edmx</DependentUpon>
+      <LastGenOutput>AppConfigModel.cs</LastGenOutput>
+    </None>
+    <None Include="OracleContextItems.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OracleContextItems.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

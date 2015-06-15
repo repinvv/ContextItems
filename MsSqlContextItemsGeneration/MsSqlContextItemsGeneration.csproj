@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ECC78D04-725D-4E96-B04B-FE33AF74EF15}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ContextItems.MsSqlContextItemsGeneration</RootNamespace>
+    <AssemblyName>ContextItems.MsSqlContextItemsGeneration</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin/debug</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetSequenceNameGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetTableNameGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\SetSequenceGenerator.cs" />
+    <Compile Include="StaticFiles\AdoCommandsGenerator.cs" />
+    <Compile Include="StaticFiles\BulkInsertDataReaderGenerator.cs" />
+    <Compile Include="StaticFiles\BulkInsertKeysDataReaderGenerator.cs" />
+    <Compile Include="StaticFiles\ContextItemsGenerator.cs" />
+    <Compile Include="Generators\CommonMethodsCollection.cs" />
+    <Compile Include="Generators\FilesGenerator.cs" />
+    <Compile Include="Generators\ItemsGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MaterializeGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\CreateTableGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetBulkDeleteRequestGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetBulkUpdateRequestGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetCreateIdTableGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetCreateTableGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetDeleteParametersGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetDeleteRequestGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetKeyValueGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetNumberOfKeyFieldsGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\GetValueGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\HasIdentityGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\MsSqlInsertGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\MsSqlInsertParametersGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\MsSqlInsertValuesGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\MsSqlUpdateGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\MsSqlUpdateParametersGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\NumberOfFieldsGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\PopulateIdentityGenerator.cs" />
+    <Compile Include="Generators\MethodGenerators\MsSqlSpecific\ValueGenerator.cs" />
+    <Compile Include="Generators\MsSqlMethodsCollection.cs" />
+    <Compile Include="MsSqlContextItemsGeneration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticFiles\MaterialGenerator.cs" />
+    <Compile Include="StaticFiles\MsSqlEntityGenerator.cs" />
+    <Compile Include="StaticFiles\StaticFilesGenerator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonGeneration\CommonGeneration.csproj">
+      <Project>{13c08ee9-f6dd-4253-88ab-277d3c56d4e5}</Project>
+      <Name>CommonGeneration</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\Project.Targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

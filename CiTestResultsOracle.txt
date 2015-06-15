@@ -1,0 +1,41 @@
+insert 50000 entries: 00:00:03.6127629
+dapper select 50008 entries: 00:00:00.5134830
+dapper select 50008 entries: 00:00:00.4278930
+dapper select 50008 entries: 00:00:00.4426703
+dapper select 50008 entries: 00:00:00.4551160
+dapper select 50008 entries: 00:00:00.4555997
+dapper select 50008 entries: 00:00:00.4312896
+dapper select 50008 entries: 00:00:00.4728174
+dapper select 50008 entries: 00:00:00.4471220
+dapper select 50008 entries: 00:00:00.4387870
+dapper select 50008 entries: 00:00:00.4652505
+dapper select 50008 entries: 00:00:00.4704930
+dapper select 50008 entries: 00:00:00.4654742
+dapper select 50008 entries: 00:00:00.4715582
+dapper select 50008 entries: 00:00:00.4626709
+dapper select 50008 entries: 00:00:00.4467286
+dapper select 50008 entries: 00:00:00.4791445
+dapper select 50008 entries: 00:00:00.4556704
+dapper select 50008 entries: 00:00:00.4807551
+dapper select 50008 entries: 00:00:00.5032034
+dapper select 50008 entries: 00:00:00.4498108
+select 50008 entries: 00:00:00.4508890
+select 50008 entries: 00:00:00.4391065
+select 50008 entries: 00:00:00.4416036
+select 50008 entries: 00:00:00.4188511
+select 50008 entries: 00:00:00.4498747
+select 50008 entries: 00:00:00.4334361
+select 50008 entries: 00:00:00.4516673
+select 50008 entries: 00:00:00.4544498
+select 50008 entries: 00:00:00.4601712
+select 50008 entries: 00:00:00.4302777
+select 50008 entries: 00:00:00.4211645
+select 50008 entries: 00:00:00.4363963
+select 50008 entries: 00:00:00.4396200
+select 50008 entries: 00:00:00.4425824
+select 50008 entries: 00:00:00.4495648
+select 50008 entries: 00:00:00.4651484
+select 50008 entries: 00:00:00.4354608
+select 50008 entries: 00:00:00.4377332
+select 50008 entries: 00:00:00.4267082
+select 50008 entries: 00:00:00.4172459

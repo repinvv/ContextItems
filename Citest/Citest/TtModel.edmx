@@ -1,0 +1,680 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TaskTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="batch">
+          <Key>
+            <PropertyRef Name="batch_id" />
+          </Key>
+          <Property Name="batch_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="task_type_id" Type="int" Nullable="false" />
+          <Property Name="chunk_init_parameters" Type="nvarchar(max)" />
+          <Property Name="batch_complete_task_type_id" Type="int" />
+          <Property Name="batch_complete_task_parameters" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="chunk">
+          <Key>
+            <PropertyRef Name="chunk_id" />
+          </Key>
+          <Property Name="chunk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="completion_indicator" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="batch_id" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="task">
+          <Key>
+            <PropertyRef Name="task_id" />
+          </Key>
+          <Property Name="task_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="task_type_id" Type="int" Nullable="false" />
+          <Property Name="task_parameters" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="exclusion_key" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="task_item">
+          <Key>
+            <PropertyRef Name="task_item_id" />
+          </Key>
+          <Property Name="task_item_id" Type="int" Nullable="false" />
+          <Property Name="batch_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="group_key" Type="nvarchar" MaxLength="256" />
+          <Property Name="exclusion_key" Type="nvarchar" MaxLength="256" />
+          <Property Name="task_parameters" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="task_item_chunk">
+          <Key>
+            <PropertyRef Name="chunk_id" />
+            <PropertyRef Name="task_item_id" />
+          </Key>
+          <Property Name="chunk_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="task_item_id" Type="int" Nullable="false" />
+          <Property Name="dummy" Type="bit" />
+        </EntityType>
+        <EntityType Name="task_item_status">
+          <Key>
+            <PropertyRef Name="task_item_status_id" />
+          </Key>
+          <Property Name="task_item_status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="task_item_id" Type="int" Nullable="false" />
+          <Property Name="task_status_type_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="task_status">
+          <Key>
+            <PropertyRef Name="task_status_id" />
+          </Key>
+          <Property Name="task_status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="task_id" Type="int" Nullable="false" />
+          <Property Name="task_status_type_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="task_status_type">
+          <Key>
+            <PropertyRef Name="task_status_type_id" />
+          </Key>
+          <Property Name="task_status_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="status_name" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="task_type">
+          <Key>
+            <PropertyRef Name="task_type_id" />
+          </Key>
+          <Property Name="task_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="task_name" Type="nvarchar" MaxLength="256" />
+          <Property Name="assembly_location" Type="nvarchar" MaxLength="1024" />
+          <Property Name="class_name" Type="nvarchar" MaxLength="1024" />
+        </EntityType>
+        <Association Name="fk_ask_item_status1">
+          <End Role="task_item" Type="Self.task_item" Multiplicity="1" />
+          <End Role="task_item_status" Type="Self.task_item_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_item">
+              <PropertyRef Name="task_item_id" />
+            </Principal>
+            <Dependent Role="task_item_status">
+              <PropertyRef Name="task_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ask_item_status2">
+          <End Role="task_status_type" Type="Self.task_status_type" Multiplicity="1" />
+          <End Role="task_item_status" Type="Self.task_item_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_status_type">
+              <PropertyRef Name="task_status_type_id" />
+            </Principal>
+            <Dependent Role="task_item_status">
+              <PropertyRef Name="task_status_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_batch1">
+          <End Role="task_type" Type="Self.task_type" Multiplicity="1" />
+          <End Role="batch" Type="Self.batch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="task_type_id" />
+            </Principal>
+            <Dependent Role="batch">
+              <PropertyRef Name="task_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_batch2">
+          <End Role="task_type" Type="Self.task_type" Multiplicity="0..1" />
+          <End Role="batch" Type="Self.batch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="task_type_id" />
+            </Principal>
+            <Dependent Role="batch">
+              <PropertyRef Name="batch_complete_task_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_chunk1">
+          <End Role="batch" Type="Self.batch" Multiplicity="1" />
+          <End Role="chunk" Type="Self.chunk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="batch">
+              <PropertyRef Name="batch_id" />
+            </Principal>
+            <Dependent Role="chunk">
+              <PropertyRef Name="batch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_item_chunk1">
+          <End Role="chunk" Type="Self.chunk" Multiplicity="1" />
+          <End Role="task_item_chunk" Type="Self.task_item_chunk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="chunk">
+              <PropertyRef Name="chunk_id" />
+            </Principal>
+            <Dependent Role="task_item_chunk">
+              <PropertyRef Name="chunk_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_item_chunk2">
+          <End Role="task_item" Type="Self.task_item" Multiplicity="1" />
+          <End Role="task_item_chunk" Type="Self.task_item_chunk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_item">
+              <PropertyRef Name="task_item_id" />
+            </Principal>
+            <Dependent Role="task_item_chunk">
+              <PropertyRef Name="task_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_item1">
+          <End Role="batch" Type="Self.batch" Multiplicity="1" />
+          <End Role="task_item" Type="Self.task_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="batch">
+              <PropertyRef Name="batch_id" />
+            </Principal>
+            <Dependent Role="task_item">
+              <PropertyRef Name="batch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_status1">
+          <End Role="task" Type="Self.task" Multiplicity="1" />
+          <End Role="task_status" Type="Self.task_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task">
+              <PropertyRef Name="task_id" />
+            </Principal>
+            <Dependent Role="task_status">
+              <PropertyRef Name="task_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_status2">
+          <End Role="task_status_type" Type="Self.task_status_type" Multiplicity="1" />
+          <End Role="task_status" Type="Self.task_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_status_type">
+              <PropertyRef Name="task_status_type_id" />
+            </Principal>
+            <Dependent Role="task_status">
+              <PropertyRef Name="task_status_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task1">
+          <End Role="task_type" Type="Self.task_type" Multiplicity="1" />
+          <End Role="task" Type="Self.task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="task_type_id" />
+            </Principal>
+            <Dependent Role="task">
+              <PropertyRef Name="task_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TaskTrackerModelStoreContainer">
+          <EntitySet Name="batch" EntityType="Self.batch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="chunk" EntityType="Self.chunk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="task" EntityType="Self.task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="task_item" EntityType="Self.task_item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="task_item_chunk" EntityType="Self.task_item_chunk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="task_item_status" EntityType="Self.task_item_status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="task_status" EntityType="Self.task_status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="task_status_type" EntityType="Self.task_status_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="task_type" EntityType="Self.task_type" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_ask_item_status1" Association="Self.fk_ask_item_status1">
+            <End Role="task_item" EntitySet="task_item" />
+            <End Role="task_item_status" EntitySet="task_item_status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ask_item_status2" Association="Self.fk_ask_item_status2">
+            <End Role="task_status_type" EntitySet="task_status_type" />
+            <End Role="task_item_status" EntitySet="task_item_status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_batch1" Association="Self.fk_batch1">
+            <End Role="task_type" EntitySet="task_type" />
+            <End Role="batch" EntitySet="batch" />
+          </AssociationSet>
+          <AssociationSet Name="fk_batch2" Association="Self.fk_batch2">
+            <End Role="task_type" EntitySet="task_type" />
+            <End Role="batch" EntitySet="batch" />
+          </AssociationSet>
+          <AssociationSet Name="fk_chunk1" Association="Self.fk_chunk1">
+            <End Role="batch" EntitySet="batch" />
+            <End Role="chunk" EntitySet="chunk" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_item_chunk1" Association="Self.fk_task_item_chunk1">
+            <End Role="chunk" EntitySet="chunk" />
+            <End Role="task_item_chunk" EntitySet="task_item_chunk" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_item_chunk2" Association="Self.fk_task_item_chunk2">
+            <End Role="task_item" EntitySet="task_item" />
+            <End Role="task_item_chunk" EntitySet="task_item_chunk" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_item1" Association="Self.fk_task_item1">
+            <End Role="batch" EntitySet="batch" />
+            <End Role="task_item" EntitySet="task_item" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_status1" Association="Self.fk_task_status1">
+            <End Role="task" EntitySet="task" />
+            <End Role="task_status" EntitySet="task_status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_status2" Association="Self.fk_task_status2">
+            <End Role="task_status_type" EntitySet="task_status_type" />
+            <End Role="task_status" EntitySet="task_status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task1" Association="Self.fk_task1">
+            <End Role="task_type" EntitySet="task_type" />
+            <End Role="task" EntitySet="task" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TaskTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="batch">
+          <Key>
+            <PropertyRef Name="batch_id" />
+          </Key>
+          <Property Name="batch_id" Type="Guid" Nullable="false" />
+          <Property Name="task_type_id" Type="Int32" Nullable="false" />
+          <Property Name="chunk_init_parameters" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="batch_complete_task_type_id" Type="Int32" />
+          <Property Name="batch_complete_task_parameters" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="task_type" Relationship="Self.fk_batch1" FromRole="batch" ToRole="task_type" />
+          <NavigationProperty Name="task_type1" Relationship="Self.fk_batch2" FromRole="batch" ToRole="task_type" />
+          <NavigationProperty Name="chunk" Relationship="Self.fk_chunk1" FromRole="batch" ToRole="chunk" />
+          <NavigationProperty Name="task_item" Relationship="Self.fk_task_item1" FromRole="batch" ToRole="task_item" />
+        </EntityType>
+        <EntityType Name="chunk">
+          <Key>
+            <PropertyRef Name="chunk_id" />
+          </Key>
+          <Property Name="chunk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="completion_indicator" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="batch_id" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="batch" Relationship="Self.fk_chunk1" FromRole="chunk" ToRole="batch" />
+          <NavigationProperty Name="task_item_chunk" Relationship="Self.fk_task_item_chunk1" FromRole="chunk" ToRole="task_item_chunk" />
+        </EntityType>
+        <EntityType Name="task">
+          <Key>
+            <PropertyRef Name="task_id" />
+          </Key>
+          <Property Name="task_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="task_type_id" Type="Int32" Nullable="false" />
+          <Property Name="task_parameters" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="exclusion_key" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="task_status" Relationship="Self.fk_task_status1" FromRole="task" ToRole="task_status" />
+          <NavigationProperty Name="task_type" Relationship="Self.fk_task1" FromRole="task" ToRole="task_type" />
+        </EntityType>
+        <EntityType Name="task_item">
+          <Key>
+            <PropertyRef Name="task_item_id" />
+          </Key>
+          <Property Name="task_item_id" Type="Int32" Nullable="false" />
+          <Property Name="batch_id" Type="Guid" Nullable="false" />
+          <Property Name="group_key" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="exclusion_key" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="task_parameters" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="batch" Relationship="Self.fk_task_item1" FromRole="task_item" ToRole="batch" />
+          <NavigationProperty Name="task_item_status" Relationship="Self.fk_ask_item_status1" FromRole="task_item" ToRole="task_item_status" />
+          <NavigationProperty Name="task_item_chunk" Relationship="Self.fk_task_item_chunk2" FromRole="task_item" ToRole="task_item_chunk" />
+        </EntityType>
+        <EntityType Name="task_item_chunk">
+          <Key>
+            <PropertyRef Name="chunk_id" />
+            <PropertyRef Name="task_item_id" />
+          </Key>
+          <Property Name="chunk_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="task_item_id" Type="Int32" Nullable="false" />
+          <Property Name="dummy" Type="Boolean" />
+          <NavigationProperty Name="chunk" Relationship="Self.fk_task_item_chunk1" FromRole="task_item_chunk" ToRole="chunk" />
+          <NavigationProperty Name="task_item" Relationship="Self.fk_task_item_chunk2" FromRole="task_item_chunk" ToRole="task_item" />
+        </EntityType>
+        <EntityType Name="task_item_status">
+          <Key>
+            <PropertyRef Name="task_item_status_id" />
+          </Key>
+          <Property Name="task_item_status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="task_item_id" Type="Int32" Nullable="false" />
+          <Property Name="task_status_type_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="task_item" Relationship="Self.fk_ask_item_status1" FromRole="task_item_status" ToRole="task_item" />
+          <NavigationProperty Name="task_status_type" Relationship="Self.fk_ask_item_status2" FromRole="task_item_status" ToRole="task_status_type" />
+        </EntityType>
+        <EntityType Name="task_status">
+          <Key>
+            <PropertyRef Name="task_status_id" />
+          </Key>
+          <Property Name="task_status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="task_id" Type="Int32" Nullable="false" />
+          <Property Name="task_status_type_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="task" Relationship="Self.fk_task_status1" FromRole="task_status" ToRole="task" />
+          <NavigationProperty Name="task_status_type" Relationship="Self.fk_task_status2" FromRole="task_status" ToRole="task_status_type" />
+        </EntityType>
+        <EntityType Name="task_status_type">
+          <Key>
+            <PropertyRef Name="task_status_type_id" />
+          </Key>
+          <Property Name="task_status_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="status_name" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="task_item_status" Relationship="Self.fk_ask_item_status2" FromRole="task_status_type" ToRole="task_item_status" />
+          <NavigationProperty Name="task_status" Relationship="Self.fk_task_status2" FromRole="task_status_type" ToRole="task_status" />
+        </EntityType>
+        <EntityType Name="task_type">
+          <Key>
+            <PropertyRef Name="task_type_id" />
+          </Key>
+          <Property Name="task_type_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="task_name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="assembly_location" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="class_name" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="batch" Relationship="Self.fk_batch1" FromRole="task_type" ToRole="batch" />
+          <NavigationProperty Name="batch1" Relationship="Self.fk_batch2" FromRole="task_type" ToRole="batch" />
+          <NavigationProperty Name="task" Relationship="Self.fk_task1" FromRole="task_type" ToRole="task" />
+        </EntityType>
+        <Association Name="fk_batch1">
+          <End Role="task_type" Type="Self.task_type" Multiplicity="1" />
+          <End Role="batch" Type="Self.batch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="task_type_id" />
+            </Principal>
+            <Dependent Role="batch">
+              <PropertyRef Name="task_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_batch2">
+          <End Role="task_type" Type="Self.task_type" Multiplicity="0..1" />
+          <End Role="batch" Type="Self.batch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="task_type_id" />
+            </Principal>
+            <Dependent Role="batch">
+              <PropertyRef Name="batch_complete_task_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_chunk1">
+          <End Role="batch" Type="Self.batch" Multiplicity="1" />
+          <End Role="chunk" Type="Self.chunk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="batch">
+              <PropertyRef Name="batch_id" />
+            </Principal>
+            <Dependent Role="chunk">
+              <PropertyRef Name="batch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_item1">
+          <End Role="batch" Type="Self.batch" Multiplicity="1" />
+          <End Role="task_item" Type="Self.task_item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="batch">
+              <PropertyRef Name="batch_id" />
+            </Principal>
+            <Dependent Role="task_item">
+              <PropertyRef Name="batch_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_item_chunk1">
+          <End Role="chunk" Type="Self.chunk" Multiplicity="1" />
+          <End Role="task_item_chunk" Type="Self.task_item_chunk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="chunk">
+              <PropertyRef Name="chunk_id" />
+            </Principal>
+            <Dependent Role="task_item_chunk">
+              <PropertyRef Name="chunk_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_status1">
+          <End Role="task" Type="Self.task" Multiplicity="1" />
+          <End Role="task_status" Type="Self.task_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task">
+              <PropertyRef Name="task_id" />
+            </Principal>
+            <Dependent Role="task_status">
+              <PropertyRef Name="task_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task1">
+          <End Role="task_type" Type="Self.task_type" Multiplicity="1" />
+          <End Role="task" Type="Self.task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_type">
+              <PropertyRef Name="task_type_id" />
+            </Principal>
+            <Dependent Role="task">
+              <PropertyRef Name="task_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ask_item_status1">
+          <End Role="task_item" Type="Self.task_item" Multiplicity="1" />
+          <End Role="task_item_status" Type="Self.task_item_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_item">
+              <PropertyRef Name="task_item_id" />
+            </Principal>
+            <Dependent Role="task_item_status">
+              <PropertyRef Name="task_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_item_chunk2">
+          <End Role="task_item" Type="Self.task_item" Multiplicity="1" />
+          <End Role="task_item_chunk" Type="Self.task_item_chunk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_item">
+              <PropertyRef Name="task_item_id" />
+            </Principal>
+            <Dependent Role="task_item_chunk">
+              <PropertyRef Name="task_item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ask_item_status2">
+          <End Role="task_status_type" Type="Self.task_status_type" Multiplicity="1" />
+          <End Role="task_item_status" Type="Self.task_item_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_status_type">
+              <PropertyRef Name="task_status_type_id" />
+            </Principal>
+            <Dependent Role="task_item_status">
+              <PropertyRef Name="task_status_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_task_status2">
+          <End Role="task_status_type" Type="Self.task_status_type" Multiplicity="1" />
+          <End Role="task_status" Type="Self.task_status" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="task_status_type">
+              <PropertyRef Name="task_status_type_id" />
+            </Principal>
+            <Dependent Role="task_status">
+              <PropertyRef Name="task_status_type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TaskTrackerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="batch" EntityType="Self.batch" />
+          <EntitySet Name="chunk" EntityType="Self.chunk" />
+          <EntitySet Name="task" EntityType="Self.task" />
+          <EntitySet Name="task_item" EntityType="Self.task_item" />
+          <EntitySet Name="task_item_chunk" EntityType="Self.task_item_chunk" />
+          <EntitySet Name="task_item_status" EntityType="Self.task_item_status" />
+          <EntitySet Name="task_status" EntityType="Self.task_status" />
+          <EntitySet Name="task_status_type" EntityType="Self.task_status_type" />
+          <EntitySet Name="task_type" EntityType="Self.task_type" />
+          <AssociationSet Name="fk_batch1" Association="Self.fk_batch1">
+            <End Role="task_type" EntitySet="task_type" />
+            <End Role="batch" EntitySet="batch" />
+          </AssociationSet>
+          <AssociationSet Name="fk_batch2" Association="Self.fk_batch2">
+            <End Role="task_type" EntitySet="task_type" />
+            <End Role="batch" EntitySet="batch" />
+          </AssociationSet>
+          <AssociationSet Name="fk_chunk1" Association="Self.fk_chunk1">
+            <End Role="batch" EntitySet="batch" />
+            <End Role="chunk" EntitySet="chunk" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_item1" Association="Self.fk_task_item1">
+            <End Role="batch" EntitySet="batch" />
+            <End Role="task_item" EntitySet="task_item" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_item_chunk1" Association="Self.fk_task_item_chunk1">
+            <End Role="chunk" EntitySet="chunk" />
+            <End Role="task_item_chunk" EntitySet="task_item_chunk" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_status1" Association="Self.fk_task_status1">
+            <End Role="task" EntitySet="task" />
+            <End Role="task_status" EntitySet="task_status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task1" Association="Self.fk_task1">
+            <End Role="task_type" EntitySet="task_type" />
+            <End Role="task" EntitySet="task" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ask_item_status1" Association="Self.fk_ask_item_status1">
+            <End Role="task_item" EntitySet="task_item" />
+            <End Role="task_item_status" EntitySet="task_item_status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_item_chunk2" Association="Self.fk_task_item_chunk2">
+            <End Role="task_item" EntitySet="task_item" />
+            <End Role="task_item_chunk" EntitySet="task_item_chunk" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ask_item_status2" Association="Self.fk_ask_item_status2">
+            <End Role="task_status_type" EntitySet="task_status_type" />
+            <End Role="task_item_status" EntitySet="task_item_status" />
+          </AssociationSet>
+          <AssociationSet Name="fk_task_status2" Association="Self.fk_task_status2">
+            <End Role="task_status_type" EntitySet="task_status_type" />
+            <End Role="task_status" EntitySet="task_status" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TaskTrackerModelStoreContainer" CdmEntityContainer="TaskTrackerEntities">
+          <EntitySetMapping Name="batch">
+            <EntityTypeMapping TypeName="TaskTrackerModel.batch">
+              <MappingFragment StoreEntitySet="batch">
+                <ScalarProperty Name="batch_id" ColumnName="batch_id" />
+                <ScalarProperty Name="task_type_id" ColumnName="task_type_id" />
+                <ScalarProperty Name="chunk_init_parameters" ColumnName="chunk_init_parameters" />
+                <ScalarProperty Name="batch_complete_task_type_id" ColumnName="batch_complete_task_type_id" />
+                <ScalarProperty Name="batch_complete_task_parameters" ColumnName="batch_complete_task_parameters" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="chunk">
+            <EntityTypeMapping TypeName="TaskTrackerModel.chunk">
+              <MappingFragment StoreEntitySet="chunk">
+                <ScalarProperty Name="chunk_id" ColumnName="chunk_id" />
+                <ScalarProperty Name="completion_indicator" ColumnName="completion_indicator" />
+                <ScalarProperty Name="batch_id" ColumnName="batch_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task">
+            <EntityTypeMapping TypeName="TaskTrackerModel.task">
+              <MappingFragment StoreEntitySet="task">
+                <ScalarProperty Name="task_id" ColumnName="task_id" />
+                <ScalarProperty Name="task_type_id" ColumnName="task_type_id" />
+                <ScalarProperty Name="task_parameters" ColumnName="task_parameters" />
+                <ScalarProperty Name="exclusion_key" ColumnName="exclusion_key" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task_item">
+            <EntityTypeMapping TypeName="TaskTrackerModel.task_item">
+              <MappingFragment StoreEntitySet="task_item">
+                <ScalarProperty Name="task_item_id" ColumnName="task_item_id" />
+                <ScalarProperty Name="batch_id" ColumnName="batch_id" />
+                <ScalarProperty Name="group_key" ColumnName="group_key" />
+                <ScalarProperty Name="exclusion_key" ColumnName="exclusion_key" />
+                <ScalarProperty Name="task_parameters" ColumnName="task_parameters" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task_item_chunk">
+            <EntityTypeMapping TypeName="TaskTrackerModel.task_item_chunk">
+              <MappingFragment StoreEntitySet="task_item_chunk">
+                <ScalarProperty Name="chunk_id" ColumnName="chunk_id" />
+                <ScalarProperty Name="task_item_id" ColumnName="task_item_id" />
+                <ScalarProperty Name="dummy" ColumnName="dummy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task_item_status">
+            <EntityTypeMapping TypeName="TaskTrackerModel.task_item_status">
+              <MappingFragment StoreEntitySet="task_item_status">
+                <ScalarProperty Name="task_item_status_id" ColumnName="task_item_status_id" />
+                <ScalarProperty Name="task_item_id" ColumnName="task_item_id" />
+                <ScalarProperty Name="task_status_type_id" ColumnName="task_status_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task_status">
+            <EntityTypeMapping TypeName="TaskTrackerModel.task_status">
+              <MappingFragment StoreEntitySet="task_status">
+                <ScalarProperty Name="task_status_id" ColumnName="task_status_id" />
+                <ScalarProperty Name="task_id" ColumnName="task_id" />
+                <ScalarProperty Name="task_status_type_id" ColumnName="task_status_type_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task_status_type">
+            <EntityTypeMapping TypeName="TaskTrackerModel.task_status_type">
+              <MappingFragment StoreEntitySet="task_status_type">
+                <ScalarProperty Name="task_status_type_id" ColumnName="task_status_type_id" />
+                <ScalarProperty Name="status_name" ColumnName="status_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="task_type">
+            <EntityTypeMapping TypeName="TaskTrackerModel.task_type">
+              <MappingFragment StoreEntitySet="task_type">
+                <ScalarProperty Name="task_type_id" ColumnName="task_type_id" />
+                <ScalarProperty Name="task_name" ColumnName="task_name" />
+                <ScalarProperty Name="assembly_location" ColumnName="assembly_location" />
+                <ScalarProperty Name="class_name" ColumnName="class_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

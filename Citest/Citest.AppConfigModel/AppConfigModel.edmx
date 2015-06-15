@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AppConfigModel.Store" Alias="Self" Provider="Oracle.DataAccess.Client" ProviderManifestToken="11.1" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="AppConfigModelStoreContainer">
+          <EntitySet Name="AUDIT_LOG" EntityType="AppConfigModel.Store.AUDIT_LOG" store:Type="Tables" Schema="HRIMPORTREF" />
+          <EntitySet Name="CLIENT" EntityType="AppConfigModel.Store.CLIENT" store:Type="Tables" Schema="HRIMPORTREF" />
+          <EntitySet Name="EP_TARGET_INFO" EntityType="AppConfigModel.Store.EP_TARGET_INFO" store:Type="Tables" Schema="HRIMPORTREF" />
+          </EntityContainer>
+        <EntityType Name="AUDIT_LOG">
+          <Key>
+            <PropertyRef Name="LOGID" />
+          </Key>
+          <Property Name="LOGID" Type="number" Nullable="false" />
+          <Property Name="EVENTID" Type="number" />
+          <Property Name="PRIORITY" Type="number" Nullable="false" />
+          <Property Name="SEVERITY" Type="nvarchar2" Nullable="false" MaxLength="32" />
+          <Property Name="TITLE" Type="nvarchar2" Nullable="false" MaxLength="256" />
+          <Property Name="TIMESTAMP" Type="timestamp" Nullable="false" />
+          <Property Name="MACHINENAME" Type="nvarchar2" Nullable="false" MaxLength="32" />
+          <Property Name="APPDOMAINNAME" Type="nvarchar2" Nullable="false" MaxLength="512" />
+          <Property Name="PROCESSID" Type="nvarchar2" Nullable="false" MaxLength="256" />
+          <Property Name="PROCESSNAME" Type="nvarchar2" Nullable="false" MaxLength="512" />
+          <Property Name="THREADNAME" Type="nvarchar2" MaxLength="512" />
+          <Property Name="WIN32THREADID" Type="nvarchar2" MaxLength="128" />
+          <Property Name="FORMATTEDMESSAGE" Type="xmltype" />
+          <Property Name="MESSAGE" Type="nclob" />
+        </EntityType>
+        <EntityType Name="CLIENT">
+          <Key>
+            <PropertyRef Name="CLIENT_ID" />
+          </Key>
+          <Property Name="CLIENTONECODE" Type="varchar2" Nullable="false" MaxLength="15" />
+          <Property Name="CONTROL_ID" Type="varchar2" Nullable="false" MaxLength="10" />
+          <Property Name="CLIENT_NUMBER" Type="number" Nullable="false" Precision="11" StoreGeneratedPattern="None" />
+          <Property Name="CLIENT_ID" Type="char" Nullable="false" MaxLength="32" />
+        </EntityType>
+        <EntityType Name="EP_TARGET_INFO">
+          <Key>
+            <PropertyRef Name="INFO_ID" />
+          </Key>
+          <Property Name="INFO_ID" Type="number" Nullable="false" />
+          <Property Name="TARGET_CD" Type="varchar2" Nullable="false" MaxLength="30" />
+          <Property Name="TABLE_NAME" Type="varchar2" Nullable="false" MaxLength="30" />
+          <Property Name="COLUMN_NAME" Type="varchar2" Nullable="false" MaxLength="30" />
+          <Property Name="DATA_TYPE" Type="varchar2" Nullable="false" MaxLength="30" />
+          <Property Name="DATA_LENGTH" Type="number" Nullable="false" />
+          <Property Name="DATA_PRECISION" Type="number" />
+          <Property Name="DATA_SCALE" Type="number" />
+          <Property Name="NULLABLE" Type="varchar2" MaxLength="1" />
+          <Property Name="ENABLED" Type="number" Precision="1" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AppConfigModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AppConfigContext" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="CLIENT" EntityType="AppConfigModel.CLIENT" />
+          <EntitySet Name="EP_TARGET_INFO" EntityType="AppConfigModel.EP_TARGET_INFO" />
+          <EntitySet Name="AUDIT_LOG" EntityType="AppConfigModel.AUDIT_LOG" />
+        </EntityContainer>
+        <EntityType Name="CLIENT">
+          <Key>
+            <PropertyRef Name="CLIENT_ID" />
+          </Key>
+          <Property Name="CLIENTONECODE" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="CONTROL_ID" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="CLIENT_NUMBER" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Name="CLIENT_ID" Type="String" Nullable="false" MaxLength="32" Unicode="false" FixedLength="true" />
+        </EntityType>
+        <EntityType Name="EP_TARGET_INFO">
+          <Key>
+            <PropertyRef Name="INFO_ID" />
+          </Key>
+          <Property Type="Decimal" Name="INFO_ID" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="String" Name="TARGET_CD" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TABLE_NAME" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="COLUMN_NAME" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DATA_TYPE" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="DATA_LENGTH" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="DATA_PRECISION" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="DATA_SCALE" Precision="38" Scale="0" />
+          <Property Type="String" Name="NULLABLE" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Type="Int16" Name="ENABLED" />
+        </EntityType>
+        <EntityType Name="AUDIT_LOG">
+          <Key>
+            <PropertyRef Name="LOGID" />
+          </Key>
+          <Property Type="Decimal" Name="LOGID" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="EVENTID" Precision="38" Scale="0" />
+          <Property Type="Decimal" Name="PRIORITY" Nullable="false" Precision="38" Scale="0" />
+          <Property Type="String" Name="SEVERITY" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TITLE" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="TIMESTAMP" Nullable="false" Precision="6" />
+          <Property Type="String" Name="MACHINENAME" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="APPDOMAINNAME" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PROCESSID" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PROCESSNAME" Nullable="false" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="THREADNAME" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="WIN32THREADID" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FORMATTEDMESSAGE" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MESSAGE" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AppConfigModelStoreContainer" CdmEntityContainer="AppConfigContext">
+          <EntitySetMapping Name="CLIENT">
+            <EntityTypeMapping TypeName="AppConfigModel.CLIENT">
+              <MappingFragment StoreEntitySet="CLIENT">
+                <ScalarProperty Name="CLIENTONECODE" ColumnName="CLIENTONECODE" />
+                <ScalarProperty Name="CONTROL_ID" ColumnName="CONTROL_ID" />
+                <ScalarProperty Name="CLIENT_NUMBER" ColumnName="CLIENT_NUMBER" />
+                <ScalarProperty Name="CLIENT_ID" ColumnName="CLIENT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EP_TARGET_INFO">
+            <EntityTypeMapping TypeName="AppConfigModel.EP_TARGET_INFO">
+              <MappingFragment StoreEntitySet="EP_TARGET_INFO">
+                <ScalarProperty Name="ENABLED" ColumnName="ENABLED" />
+                <ScalarProperty Name="NULLABLE" ColumnName="NULLABLE" />
+                <ScalarProperty Name="DATA_SCALE" ColumnName="DATA_SCALE" />
+                <ScalarProperty Name="DATA_PRECISION" ColumnName="DATA_PRECISION" />
+                <ScalarProperty Name="DATA_LENGTH" ColumnName="DATA_LENGTH" />
+                <ScalarProperty Name="DATA_TYPE" ColumnName="DATA_TYPE" />
+                <ScalarProperty Name="COLUMN_NAME" ColumnName="COLUMN_NAME" />
+                <ScalarProperty Name="TABLE_NAME" ColumnName="TABLE_NAME" />
+                <ScalarProperty Name="TARGET_CD" ColumnName="TARGET_CD" />
+                <ScalarProperty Name="INFO_ID" ColumnName="INFO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AUDIT_LOG">
+            <EntityTypeMapping TypeName="AppConfigModel.AUDIT_LOG">
+              <MappingFragment StoreEntitySet="AUDIT_LOG">
+                <ScalarProperty Name="MESSAGE" ColumnName="MESSAGE" />
+                <ScalarProperty Name="FORMATTEDMESSAGE" ColumnName="FORMATTEDMESSAGE" />
+                <ScalarProperty Name="WIN32THREADID" ColumnName="WIN32THREADID" />
+                <ScalarProperty Name="THREADNAME" ColumnName="THREADNAME" />
+                <ScalarProperty Name="PROCESSNAME" ColumnName="PROCESSNAME" />
+                <ScalarProperty Name="PROCESSID" ColumnName="PROCESSID" />
+                <ScalarProperty Name="APPDOMAINNAME" ColumnName="APPDOMAINNAME" />
+                <ScalarProperty Name="MACHINENAME" ColumnName="MACHINENAME" />
+                <ScalarProperty Name="TIMESTAMP" ColumnName="TIMESTAMP" />
+                <ScalarProperty Name="TITLE" ColumnName="TITLE" />
+                <ScalarProperty Name="SEVERITY" ColumnName="SEVERITY" />
+                <ScalarProperty Name="PRIORITY" ColumnName="PRIORITY" />
+                <ScalarProperty Name="EVENTID" ColumnName="EVENTID" />
+                <ScalarProperty Name="LOGID" ColumnName="LOGID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,42 @@
+insert 200000 entries: 00:00:00.8666629
+dapper select 200001 entries: 00:00:00.5058954
+dapper select 200001 entries: 00:00:00.4819286
+dapper select 200001 entries: 00:00:00.5359280
+dapper select 200001 entries: 00:00:00.5153145
+dapper select 200001 entries: 00:00:00.4785298
+dapper select 200001 entries: 00:00:00.5587905
+dapper select 200001 entries: 00:00:00.5535705
+dapper select 200001 entries: 00:00:00.5364162
+dapper select 200001 entries: 00:00:00.6061083
+dapper select 200001 entries: 00:00:00.5448234
+dapper select 200001 entries: 00:00:00.5437681
+dapper select 200001 entries: 00:00:00.5486257
+dapper select 200001 entries: 00:00:00.4408460
+dapper select 200001 entries: 00:00:00.5311834
+dapper select 200001 entries: 00:00:00.4998405
+dapper select 200001 entries: 00:00:00.5253260
+dapper select 200001 entries: 00:00:00.4833806
+dapper select 200001 entries: 00:00:00.5501598
+dapper select 200001 entries: 00:00:00.4495421
+dapper select 200001 entries: 00:00:00.5401746
+select 200001 entries: 00:00:00.4583403
+select 200001 entries: 00:00:00.4799202
+select 200001 entries: 00:00:00.4551278
+select 200001 entries: 00:00:00.4787475
+select 200001 entries: 00:00:00.4687139
+select 200001 entries: 00:00:00.4850805
+select 200001 entries: 00:00:00.4821762
+select 200001 entries: 00:00:00.4456727
+select 200001 entries: 00:00:00.4973298
+select 200001 entries: 00:00:00.4794038
+select 200001 entries: 00:00:00.4691408
+select 200001 entries: 00:00:00.4790279
+select 200001 entries: 00:00:00.4757541
+select 200001 entries: 00:00:00.4633781
+select 200001 entries: 00:00:00.4767558
+select 200001 entries: 00:00:00.4171797
+select 200001 entries: 00:00:00.5105593
+select 200001 entries: 00:00:00.4849856
+select 200001 entries: 00:00:00.4233452
+select 200001 entries: 00:00:00.5115263
+
